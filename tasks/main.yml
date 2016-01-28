@@ -32,6 +32,7 @@
     - python-virtualenv
     - python-dev
   tags: packages
+  when: python_env_install
 
 - name: php environment
   apt: name={{ item }} state=latest
@@ -41,6 +42,7 @@
     - php5-fpm
     - php5-cgi
   tags: packages
+  when: php_env_install
 
 # Nginx
 - name: nginx
@@ -56,13 +58,13 @@
         owner=root
         group=root
         mode=0644
-  notify: 
+  notify:
   - restart nginx
 
-- file: path=/etc/nginx/sites-available/default-conf state=directory
+- file: path=/etc/nginx/sites-available/default.conf state=directory
 
 # Supervisord.org
-- name: supervisord 
+- name: supervisord
   apt: name={{ item }} state=latest
   with_items:
     - supervisor
@@ -76,22 +78,22 @@
         owner=root
         group=root
         mode=0640
-  notify: 
+  notify:
   - reload supervisor
 
 - name: supervisor nginx configuration
   template:
         backup=yes
-        src=etc/nginx/sites-available/default-conf/supervisor.conf.j2
-        dest=/etc/nginx/sites-available/default-conf/supervisor.conf
+        src=etc/nginx/sites-available/default.conf/supervisor.conf.j2
+        dest=/etc/nginx/sites-available/default.conf/supervisor.conf
         owner=root
         group=root
         mode=0644
-  notify: 
+  notify:
   - restart nginx
 
 # Monit
-- name: monit 
+- name: monit
   apt: name={{ item }} state=latest
   with_items:
     - monit
@@ -111,32 +113,34 @@
       - php-fpm
       - supervisor
       - system_resources
-  notify: 
+  notify:
   - restart monit
 
 - name: monit nginx configuration
   template:
         backup=yes
-        src=etc/nginx/sites-available/default-conf/monit.conf.j2
-        dest=/etc/nginx/sites-available/default-conf/monit.conf
+        src=etc/nginx/sites-available/default.conf/monit.conf.j2
+        dest=/etc/nginx/sites-available/default.conf/monit.conf
         owner=root
         group=root
         mode=0644
-  notify: 
+  notify:
   - restart monit
 
 # Munin
-- name: munin 
+- name: munin
   apt: name={{ item }} state=latest
   with_items:
     - munin
   tags: packages
+  when: munin_install
 
 - name: munin configuration
   template:
         backup=yes
-        src=etc/nginx/sites-available/default-conf/munin.conf.j2
-        dest=/etc/nginx/sites-available/default-conf/munin.conf
+        src=etc/nginx/sites-available/default.conf/munin.conf.j2
+        dest=/etc/nginx/sites-available/default.conf/munin.conf
         owner=root
         group=root
         mode=0644
+  when: munin_install

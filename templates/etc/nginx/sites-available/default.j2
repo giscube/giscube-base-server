@@ -31,17 +31,21 @@ server {
 
     client_max_body_size 50M;
 
-    include sites-available/default-conf/*.conf;
+    include sites-available/default.conf/*.conf;
 
-	### PHP
+  ### PHP
+{% if php_env_install %}
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-	
+
 		# php5-fpm:
 		fastcgi_pass unix:/var/run/php5-fpm.sock;
 		fastcgi_index index.php;
 		include fastcgi_params;
 	}
+{% else %}
+  # PHP was not installed
+{% endif %}
 
 }
