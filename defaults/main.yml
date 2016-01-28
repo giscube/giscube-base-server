@@ -1,0 +1,8 @@
+---
+
+admin_username: admin
+admin_password: admin
+
+apt_update_cache: yes
+# cache valid for 1 day
+apt_cache_valid_time: 86400

@@ -1,0 +1,142 @@
+---
+
+- name: Ensure system packages are up to date
+  apt:
+    upgrade=safe
+    update_cache={{ apt_update_cache }}
+    cache_valid_time={{ apt_cache_valid_time }}
+  tags: packages
+
+- name: Ensure bash, OpenSSl, and libssl are the latest versions
+  apt: name={{ item }} state=latest
+  with_items:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+  tags: packages
+
+- name: basic utilities. htop, git, joe, fail2ban
+  apt: name={{ item }} state=latest
+  with_items:
+    - htop
+    - git
+    - joe
+    - fail2ban
+  tags: packages
+
+- name: python environment
+  apt: name={{ item }} state=latest
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - python-dev
+  tags: packages
+
+- name: php environment
+  apt: name={{ item }} state=latest
+  with_items:
+    - php5-common
+    - php5-cli
+    - php5-fpm
+    - php5-cgi
+  tags: packages
+
+# Nginx
+- name: nginx
+  apt: name={{ item }} state=latest
+  with_items:
+    - nginx
+  tags: packages
+
+- template:
+        backup=yes
+        src=etc/nginx/sites-available/default.j2
+        dest=/etc/nginx/sites-available/default
+        owner=root
+        group=root
+        mode=0644
+  notify: 
+  - restart nginx
+
+- file: path=/etc/nginx/sites-available/default-conf state=directory
+
+# Supervisord.org
+- name: supervisord 
+  apt: name={{ item }} state=latest
+  with_items:
+    - supervisor
+  tags: packages
+
+- name: supervisor configuration
+  template:
+        backup=yes
+        src=etc/supervisor/supervisord.conf.j2
+        dest=/etc/supervisor/supervisord.conf
+        owner=root
+        group=root
+        mode=0640
+  notify: 
+  - reload supervisor
+
+- name: supervisor nginx configuration
+  template:
+        backup=yes
+        src=etc/nginx/sites-available/default-conf/supervisor.conf.j2
+        dest=/etc/nginx/sites-available/default-conf/supervisor.conf
+        owner=root
+        group=root
+        mode=0644
+  notify: 
+  - restart nginx
+
+# Monit
+- name: monit 
+  apt: name={{ item }} state=latest
+  with_items:
+    - monit
+  tags: packages
+
+- name: monit configuration
+  template:
+        backup=yes
+        src=etc/monit/conf.d/{{ item }}.j2
+        dest=/etc/monit/conf.d/{{ item }}
+        owner=root
+        group=root
+        mode=0644
+  with_items:
+      - basic_conf
+      - nginx
+      - php-fpm
+      - supervisor
+      - system_resources
+  notify: 
+  - restart monit
+
+- name: monit nginx configuration
+  template:
+        backup=yes
+        src=etc/nginx/sites-available/default-conf/monit.conf.j2
+        dest=/etc/nginx/sites-available/default-conf/monit.conf
+        owner=root
+        group=root
+        mode=0644
+  notify: 
+  - restart monit
+
+# Munin
+- name: munin 
+  apt: name={{ item }} state=latest
+  with_items:
+    - munin
+  tags: packages
+
+- name: munin configuration
+  template:
+        backup=yes
+        src=etc/nginx/sites-available/default-conf/munin.conf.j2
+        dest=/etc/nginx/sites-available/default-conf/munin.conf
+        owner=root
+        group=root
+        mode=0644
