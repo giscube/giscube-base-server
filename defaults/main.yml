@@ -2,6 +2,7 @@
 
 admin_username: admin
 admin_password: admin
+giscube_administrators_cidr: 127.0.0.1/32
 
 apt_update_cache: yes
 # cache valid for 1 day
@@ -12,6 +13,8 @@ nginx_client_max_body_size: 1M
 
 python_env_install: yes
 php_env_install: yes
+
+supervisor_web_enabled: yes
 
 monit_install: yes
 monit_web_enabled: yes

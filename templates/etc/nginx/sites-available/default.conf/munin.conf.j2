@@ -14,12 +14,22 @@
             uwsgi_modifier1 9;
             uwsgi_pass unix:/data/fcgis/munin-graph/uwsgi.sock;
             uwsgi_param SCRIPT_NAME /munin-cgi/munin-cgi-graph;
+
+            # administrators
+    {% if giscube_administrators_cidr %}
+            # giscube_administrators_cidr
+            allow   {{ giscube_administrators_cidr }};
+    {% else %}
+            # giscube_administrators_cidr not set
+    {% endif %}
+            # drop rest of the world
+            deny    all;
     }
 
     location /munin/static/ {
         alias /etc/munin/static/;
     }
-    
+
 #    location /munin/ {
 #        fastcgi_split_path_info ^(/munin)(.*);
 #        fastcgi_param PATH_INFO $fastcgi_path_info;
@@ -32,4 +42,14 @@
             uwsgi_modifier1 9;
             uwsgi_pass unix:/data/fcgis/munin-html/uwsgi.sock;
             uwsgi_param SCRIPT_NAME /munin;
+
+            # administrators
+    {% if giscube_administrators_cidr %}
+            # giscube_administrators_cidr
+            allow   {{ giscube_administrators_cidr }};
+    {% else %}
+            # giscube_administrators_cidr not set
+    {% endif %}
+            # drop rest of the world
+            deny    all;
     }

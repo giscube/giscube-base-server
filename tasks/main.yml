@@ -92,6 +92,7 @@
         mode=0644
   notify:
   - reload nginx
+  when: supervisor_web_enabled
 
 # Monit
 - name: monit

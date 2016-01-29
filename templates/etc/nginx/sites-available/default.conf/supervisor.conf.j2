@@ -6,8 +6,13 @@
         # proxy_pass http://127.0.0.1:8666;
         proxy_pass http://unix:/var/run/supervisor.sock:/;
 
-        # administradors
-        allow   127.0.0.1/32;
+        # administrators
+{% if giscube_administrators_cidr %}
+        # giscube_administrators_cidr
+        allow   {{ giscube_administrators_cidr }};
+{% else %}
+        # giscube_administrators_cidr not set
+{% endif %}
         # drop rest of the world
         deny    all;
     }
