@@ -4,8 +4,6 @@
 file=/var/run/supervisor.sock   ; (the path to the socket file)
 chmod=0700                       ; sockef file mode (default 0700)
 chown=www-data
-username={{ admin_username }}
-password={{ admin_password }}
 
 [supervisord]
 logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
