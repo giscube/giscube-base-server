@@ -16,25 +16,37 @@ server {
 	listen [::]:80 default_server ipv6only=on;
 
 	root /usr/share/nginx/html;
-	index index.html index.htm index.php;
+	index index.html index.htm{% if php_env_install %} index.php{% endif %};
 
 	# Make site accessible from http://localhost/
 	server_name localhost;
 
-	location / {
+	include sites-available/default.conf/*.conf;
+
+{% if nginx_client_max_body_size %}
+  # nginx_client_max_body_size
+  client_max_body_size {{ nginx_client_max_body_size }};
+{% endif %}
+
+{% if nginx_root_try_files %}
+  # nginx_root_try_files: yes
+  location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri/ =404;
 		# Uncomment to enable naxsi on this location
 		# include /etc/nginx/naxsi.rules
-	}
-
-    client_max_body_size 50M;
-
-    include sites-available/default.conf/*.conf;
+  }
+{% else %}
+  # nginx_root_try_files: no
+  location / {
+    return 404;
+  }
+{% endif %}
 
   ### PHP
 {% if php_env_install %}
+  # php_env_install: yes
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
@@ -45,7 +57,7 @@ server {
 		include fastcgi_params;
 	}
 {% else %}
-  # PHP was not installed
+  # php_env_install: no
 {% endif %}
 
 }

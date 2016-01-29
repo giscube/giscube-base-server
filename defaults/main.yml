@@ -7,6 +7,14 @@ apt_update_cache: yes
 # cache valid for 1 day
 apt_cache_valid_time: 86400
 
+nginx_root_try_files: yes
+nginx_client_max_body_size: 1M
+
 python_env_install: yes
 php_env_install: yes
+
+monit_install: yes
+monit_web_enabled: yes
+
 munin_install: yes
+munin_web_enabled: yes

@@ -49,7 +49,7 @@
   apt: name={{ item }} state=latest
   with_items:
     - nginx
-  tags: packages
+  tags: packages, nginx
 
 - template:
         backup=yes
@@ -59,7 +59,8 @@
         group=root
         mode=0644
   notify:
-  - restart nginx
+    - reload nginx
+  tags: nginx
 
 - file: path=/etc/nginx/sites-available/default.conf state=directory
 
@@ -79,7 +80,7 @@
         group=root
         mode=0640
   notify:
-  - reload supervisor
+  - reread supervisor
 
 - name: supervisor nginx configuration
   template:
@@ -90,7 +91,7 @@
         group=root
         mode=0644
   notify:
-  - restart nginx
+  - reload nginx
 
 # Monit
 - name: monit
@@ -114,7 +115,8 @@
       - supervisor
       - system_resources
   notify:
-  - restart monit
+    - reload monit
+  when: monit_install
 
 - name: monit nginx configuration
   template:
@@ -125,7 +127,16 @@
         group=root
         mode=0644
   notify:
-  - restart monit
+    - reload nginx
+  when: monit_install and monit_web_enabled
+
+- name: remove monit configuration
+  file:
+    path=/etc/nginx/sites-available/default.conf/monit.conf
+    state=absent
+  notify:
+    - reload nginx
+  when: not (monit_install and monit_web_enabled)
 
 # Munin
 - name: munin
@@ -143,4 +154,14 @@
         owner=root
         group=root
         mode=0644
-  when: munin_install
+  notify:
+    - reload nginx
+  when: munin_install and munin_web_enabled
+
+- name: remove munin configuration
+  file:
+    path=/etc/nginx/sites-available/default.conf/munin.conf
+    state=absent
+  notify:
+    - reload nginx
+  when: not (munin_install and munin_web_enabled)
