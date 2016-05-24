@@ -131,7 +131,7 @@
     - reload nginx
   when: monit_install and monit_web_enabled
 
-- name: remove monit configuration
+- name: remove monit nginx configuration
   file:
     path=/etc/nginx/sites-available/default.conf/monit.conf
     state=absent
@@ -159,7 +159,7 @@
     - reload nginx
   when: munin_install and munin_web_enabled
 
-- name: remove munin configuration
+- name: remove munin nginx configuration
   file:
     path=/etc/nginx/sites-available/default.conf/munin.conf
     state=absent
