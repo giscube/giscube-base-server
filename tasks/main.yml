@@ -34,14 +34,7 @@
   tags: packages
   when: python_env_install
 
-- name: php environment
-  apt: name={{ item }} state=latest
-  with_items:
-    - php5-common
-    - php5-cli
-    - php5-fpm
-    - php5-cgi
-  tags: packages
+- include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
   when: php_env_install
 
 # Nginx
@@ -93,6 +86,9 @@
   notify:
   - reload nginx
   when: supervisor_web_enabled
+
+- name: ensure supervisor is running
+  service: name=supervisor state=started
 
 # Monit
 - name: monit
