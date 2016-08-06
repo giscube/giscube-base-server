@@ -52,7 +52,12 @@ server {
 		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
 
 		# php5-fpm:
+{% if ansible_distribution_release == 'trusty' %}
 		fastcgi_pass unix:/var/run/php5-fpm.sock;
+{% elif ansible_distribution_release == 'xenial' %}
+		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+{% endif %}
+
 		fastcgi_index index.php;
 		include fastcgi_params;
 	}

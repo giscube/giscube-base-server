@@ -1,7 +1,16 @@
 check process php-fpm with pidfile /var/run/php5-fpm.pid
+{% if ansible_distribution_release == 'trusty' %}
   start program = "/usr/sbin/service php5-fpm start"
   stop program  = "/usr/sbin/service php5-fpm stop"
 
   if failed unixsocket /var/run/php5-fpm.sock then restart
+
+{% elif ansible_distribution_release == 'xenial' %}
+  start program = "/usr/sbin/service php-fpm7.0 start"
+  stop program  = "/usr/sbin/service php-fpm7.0 stop"
+
+  if failed unixsocket /var/run/php/php7.0-fpm.sock then restart
+
+{% endif %}
   if 2 restarts within 2 cycles then alert
   if 3 restarts within 5 cycles then timeout
