@@ -1,0 +1,28 @@
+- name: python environment
+  apt: name={{ item }} state=latest
+  with_items:
+    - python-pip
+    - python-virtualenv
+    - python-dev
+  tags: packages
+
+- name: python3 environment
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3-pip
+    - python3-dev
+  tags: packages
+
+- name: "python3 virtualenv Ubuntu trusty"
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3.4-venv
+  tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
+
+- name: "python3 virtualenv Ubuntu xenial"
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3.5-venv
+  tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'

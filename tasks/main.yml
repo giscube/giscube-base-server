@@ -25,13 +25,7 @@
     - fail2ban
   tags: packages
 
-- name: python environment
-  apt: name={{ item }} state=latest
-  with_items:
-    - python-pip
-    - python-virtualenv
-    - python-dev
-  tags: packages
+- include: "python.yml"
   when: python_env_install
 
 - include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
