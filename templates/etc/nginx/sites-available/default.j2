@@ -48,18 +48,19 @@ server {
 {% if php_env_install %}
   # php_env_install: yes
 	location ~ \.php$ {
+{% if ansible_distribution_release == 'trusty' %}
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-
 		# php5-fpm:
-{% if ansible_distribution_release == 'trusty' %}
 		fastcgi_pass unix:/var/run/php5-fpm.sock;
+		fastcgi_index index.php;
+		include fastcgi_params;
 {% elif ansible_distribution_release == 'xenial' %}
+		include snippets/fastcgi-php.conf;
+		# With php7.0-cgi alone:
 		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
 {% endif %}
 
-		fastcgi_index index.php;
-		include fastcgi_params;
 	}
 {% else %}
   # php_env_install: no
