@@ -11,5 +11,6 @@
   lineinfile:
       dest=/etc/php/7.0/fpm/php.ini
       state=present
-      regexp='^short_open_tag = Off'
+      regexp='^short_open_tag'
       line='short_open_tag = On'
+      insertafter='^short_open_tag'
