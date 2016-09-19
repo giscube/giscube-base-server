@@ -1,5 +1,15 @@
 ---
 
+- name: APT sources.list
+  template:
+        backup=yes
+        src=etc/apt/sources.list.j2
+        dest=/etc/apt/sources.list
+        owner=root
+        group=root
+        mode=0644
+  tags: packages
+
 - name: Ensure system packages are up to date
   apt:
     upgrade=safe
