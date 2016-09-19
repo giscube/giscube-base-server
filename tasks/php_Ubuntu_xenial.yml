@@ -6,3 +6,10 @@
     - php-fpm
     - php-cgi
   tags: packages
+
+- name: Set short_open_tag
+  lineinfile:
+      dest=/etc/php/7.0/fpm/php.ini
+      state=present
+      regexp='^short_open_tag = Off'
+      line='short_open_tag = On'
