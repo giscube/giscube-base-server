@@ -4,6 +4,9 @@ admin_username: admin
 admin_password: admin
 giscube_administrators_cidr: 127.0.0.1/32
 
+locale_lang: en_US.UTF-8
+locale_lc_all: en_US.UTF-8
+
 apt_update_cache: yes
 # cache valid for 1 day
 apt_cache_valid_time: 86400
