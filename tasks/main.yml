@@ -47,10 +47,12 @@
     - fail2ban
   tags: packages
 
-- include: "python.yml"
+- name: Python environment install
+  include: "python.yml"
   when: python_env_install
 
-- include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
+- name: PHP environment install
+  include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
   when: php_env_install
 
 # Nginx
