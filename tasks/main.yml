@@ -22,6 +22,10 @@
         mode=0644
   tags: packages
 
+- name: install apt requirements
+  apt: pkg=aptitude
+  tags: packages
+
 - name: Ensure system packages are up to date
   apt:
     upgrade=safe
