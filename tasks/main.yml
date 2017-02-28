@@ -42,6 +42,12 @@
     - libssl-doc
   tags: packages
 
+- name: Ensure security updates are applied automatically
+  apt: name={{ item }} state=latest
+  with_items:
+    - unattended-upgrades
+  tags: packages
+
 - name: basic utilities. htop, git, joe, fail2ban
   apt: name={{ item }} state=latest
   with_items:
