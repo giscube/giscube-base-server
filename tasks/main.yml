@@ -55,7 +55,7 @@
 - name: basic utilities. htop, git, joe, vim, fail2ban, rpl
   apt: name={{ item }} state=latest
   with_items:
-    #- htop
+    - htop
     - git
     - joe
     - vim
