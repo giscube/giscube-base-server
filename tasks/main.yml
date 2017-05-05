@@ -57,6 +57,9 @@
     - fail2ban
   tags: packages
 
+- include: ntp.yml
+  when: ntp_enable
+
 - name: Python environment install
   include: "python.yml"
   when: python_env_install
