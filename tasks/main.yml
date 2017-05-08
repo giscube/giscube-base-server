@@ -48,13 +48,15 @@
     - unattended-upgrades
   tags: packages
 
-- name: basic utilities. htop, git, joe, fail2ban
+- name: basic utilities. htop, git, joe, vim, fail2ban, rpl
   apt: name={{ item }} state=latest
   with_items:
     - htop
     - git
     - joe
+    - vim
     - fail2ban
+    - rpl
   tags: packages
 
 - include: ntp.yml
