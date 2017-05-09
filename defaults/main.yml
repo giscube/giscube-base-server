@@ -26,11 +26,13 @@ monit_web_enabled: yes
 munin_install: yes
 munin_web_enabled: yes
 
-# The name of npt daemon
+# The name of ntp daemon
 nptd: ntp.service
 
-ntp_enable: no
+ntp_enable: yes
 
+# ntp_area can be left empty to use the global configuration
+# or can be defined like '.europe' to set it to a region
 ntp_area: ''
 ntp_servers:
   - "0{{ ntp_area }}.pool.ntp.org iburst"
