@@ -71,13 +71,14 @@
   when: php_env_install
 
 # Nginx
-- name: nginx
+- name: nginx install
   apt: name={{ item }} state=latest
   with_items:
     - nginx
   tags: packages, nginx
 
-- template:
+- name: nginx default configuration
+  template:
         backup=yes
         src=etc/nginx/sites-available/default.j2
         dest=/etc/nginx/sites-available/default
@@ -88,7 +89,8 @@
     - reload nginx
   tags: nginx
 
-- file: path=/etc/nginx/sites-available/default.conf state=directory
+- name: nginx default.conf directory
+  file: path=/etc/nginx/sites-available/default.conf state=directory
 
 # Supervisord.org
 - name: supervisord
