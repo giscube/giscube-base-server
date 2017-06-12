@@ -27,7 +27,7 @@ munin_install: yes
 munin_web_enabled: yes
 
 # The name of ntp daemon
-nptd: ntp.service
+ntpd: ntp.service
 
 ntp_enable: yes
 

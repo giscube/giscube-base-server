@@ -5,7 +5,7 @@
 
 - name: Ensure ntp is running and enabled
   service:
-    name: "{{ nptd }}"
+    name: "{{ ntpd }}"
     state: started
     enabled: yes
 

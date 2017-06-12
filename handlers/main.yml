@@ -19,4 +19,4 @@
   service: name=monit state=restarted
 
 - name: restart nptd
-  service: name={{ nptd }} state=restarted
+  service: name={{ ntpd }} state=restarted
