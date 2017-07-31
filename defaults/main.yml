@@ -14,6 +14,7 @@ apt_mirror: 'us'
 
 nginx_root_try_files: yes
 nginx_client_max_body_size: 1M
+nginx_default_root: /usr/share/nginx/html
 
 python_env_install: yes
 php_env_install: yes
