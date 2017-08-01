@@ -11,5 +11,6 @@
 - name: user_data_contents
   shell: "cat /home/git/.ssh/id_rsa.pub"
   register: user_data_action
+  changed_when: False
 
 - debug: msg="git public key is {{ user_data_action.stdout }}"
