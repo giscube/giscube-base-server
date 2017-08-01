@@ -12,6 +12,15 @@
     - python3-pip
     - python3-dev
   tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release != 'zesty'
+
+- name: python3 environment
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3-pip
+    - python3.6-dev
+  tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'zesty'
 
 - name: "python3 virtualenv Ubuntu trusty"
   apt: name={{ item }} state=latest
@@ -26,3 +35,10 @@
     - python3.5-venv
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'
+
+- name: "python3 virtualenv Ubuntu zesty"
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3.6-venv
+  tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'zesty'
