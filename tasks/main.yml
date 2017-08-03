@@ -81,6 +81,12 @@
     - nginx
   tags: packages, nginx
 
+- name: make sure nginx root exists
+  file: path={{ nginx_default_root }} state=directory
+      owner=root
+      group=root
+      mode=0755
+
 - name: nginx default configuration
   template:
         backup=yes
