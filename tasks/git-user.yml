@@ -14,3 +14,4 @@
   changed_when: False
 
 - debug: msg="git public key is {{ user_data_action.stdout }}"
+  when: user_data_action.stdout is defined
