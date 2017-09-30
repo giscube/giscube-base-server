@@ -29,6 +29,8 @@ monit_web_enabled: yes
 munin_install: yes
 munin_web_enabled: yes
 
+fail2ban_install: yes
+
 # The name of ntp daemon
 ntpd: ntp.service
 
