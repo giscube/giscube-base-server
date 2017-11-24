@@ -60,6 +60,7 @@
     - joe
     - vim
     - rpl
+    - acl
   tags: packages
 
 - name: Install fail2ban
