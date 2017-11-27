@@ -15,7 +15,7 @@
 - name: APT sources.list
   template:
         backup=yes
-        src=etc/apt/sources.list.j2
+        src={{ apt_sources_template }}
         dest=/etc/apt/sources.list
         owner=root
         group=root
