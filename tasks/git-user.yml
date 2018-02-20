@@ -5,7 +5,6 @@
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
     ssh_key_comment: git@{{ ansible_nodename }}
-    groups: www-data
     append: yes
 
 - name: user_data_contents
@@ -15,3 +14,9 @@
 
 - debug: msg="git public key is {{ user_data_action.stdout }}"
   when: user_data_action.stdout is defined
+
+- name: Add user www-data to group git
+  user:
+    name: www-data
+    groups: git
+    append: yes
