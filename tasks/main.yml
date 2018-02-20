@@ -1,8 +1,5 @@
 ---
 
-- name: Generate default locale
-  locale_gen: name="{{ locale_lc_all }}" state=present
-
 - name: Set default locale
   template:
         backup=yes
@@ -11,6 +8,9 @@
         owner=root
         group=root
         mode=0644
+
+- name: Generate default locale
+  locale_gen: name="{{ locale_lc_all }}" state=present
 
 - name: APT sources.list
   template:
