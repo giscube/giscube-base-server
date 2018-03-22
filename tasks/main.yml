@@ -144,6 +144,7 @@
   apt: name={{ item }} state=latest
   with_items:
     - monit
+  when: monit_install
   tags: packages
 
 - name: monit configuration
