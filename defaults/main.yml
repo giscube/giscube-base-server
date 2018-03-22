@@ -10,6 +10,7 @@ locale_lc_all: en_US.UTF-8
 apt_update_cache: yes
 # cache valid for 1 day
 apt_cache_valid_time: 86400
+apt_sources_template: etc/apt/sources.list.j2
 apt_mirror: 'es'
 
 nginx_root_try_files: yes

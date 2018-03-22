@@ -1,8 +1,5 @@
 ---
 
-- name: Generate default locale
-  locale_gen: name="{{ locale_lc_all }}" state=present
-
 - name: Set default locale
   template:
         backup=yes
@@ -12,10 +9,13 @@
         group=root
         mode=0644
 
+- name: Generate default locale
+  locale_gen: name="{{ locale_lc_all }}" state=present
+
 - name: APT sources.list
   template:
         backup=yes
-        src=etc/apt/sources.list.j2
+        src={{ apt_sources_template }}
         dest=/etc/apt/sources.list
         owner=root
         group=root
@@ -60,6 +60,7 @@
     - joe
     - vim
     - rpl
+    - acl
   tags: packages
 
 - name: Install fail2ban
