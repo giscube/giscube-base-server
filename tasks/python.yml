@@ -12,7 +12,7 @@
     - python3-pip
     - python3-dev
   tags: packages
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release != 'zesty' and ansible_distribution_release != 'bionic'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release != 'zesty'
 
 - name: python3 environment
   apt: name={{ item }} state=latest
