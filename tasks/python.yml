@@ -42,3 +42,10 @@
     - python3.6-venv
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'zesty'
+
+- name: "python3 virtualenv Ubuntu bionic"
+  apt: name={{ item }} state=latest
+  with_items:
+    - python3-venv
+  tags: packages
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'bionic'
