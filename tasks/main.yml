@@ -215,3 +215,4 @@
   when: not (munin_install and munin_web_enabled)
 
 - include: git-user.yml
+  tags: git-user
