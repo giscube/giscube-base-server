@@ -24,10 +24,12 @@
 
 - block:
   - name: install apt requirements
-    apt: pkg=aptitude
+    apt:
+      pkg: aptitude
+      update_cache: "{{ apt_update_cache }}"
     tags: packages
   rescue:
-    - name: Preious task failed, force aptitude install
+    - name: Previous task failed, force aptitude install
       raw: apt-get update && apt-get -y install aptitude
 
 - name: Ensure system packages are up to date
