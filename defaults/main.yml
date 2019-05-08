@@ -23,6 +23,7 @@ nginx_default_server_name: localhost
 python_env_install: yes
 php_env_install: yes
 
+supervisor_install: yes
 supervisor_web_enabled: yes
 
 monit_install: yes

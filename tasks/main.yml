@@ -115,6 +115,7 @@
   with_items:
     - supervisor
   tags: packages
+  when: supervisor_install
 
 - name: supervisor configuration
   template:
@@ -137,10 +138,11 @@
         mode=0644
   notify:
   - reload nginx
-  when: supervisor_web_enabled
+  when: supervisor_install and supervisor_web_enabled
 
 - name: ensure supervisor is running
   service: name=supervisor state=started
+  when: supervisor_install
 
 # Monit
 - name: monit
