@@ -152,23 +152,30 @@
   when: monit_install
   tags: packages
 
-- name: monit configuration
-  template:
-        backup=yes
-        src=etc/monit/conf.d/{{ item }}.j2
-        dest=/etc/monit/conf.d/{{ item }}
-        owner=root
-        group=root
-        mode=0644
-  with_items:
-      - basic_conf
-      - nginx
-      - php-fpm
-      - supervisor
-      - system_resources
-  notify:
-    - reload monit
+- name: monit basic configuration
+  include: monit_configuration.yml
+  item: basic_conf
   when: monit_install
+
+- name: monit basic configuration
+  include: monit_configuration.yml
+  item: system_resources
+  when: monit_install
+
+- name: monit nginx configuration
+  include: monit_configuration.yml
+  item: nginx
+  when: monit_install
+
+- name: monit php-fpm configuration
+  include: monit_configuration.yml
+  item: php-fpm
+  when: monit_install and php_env_install
+
+- name: monit supervisor configuration
+  include: monit_configuration.yml
+  item: supervisor
+  when: monit_install and supervisor_install
 
 - name: monit nginx configuration
   template:

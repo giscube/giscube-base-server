@@ -1,0 +1,13 @@
+---
+
+- name: monit configuration
+  template:
+    backup=yes
+    src=etc/monit/conf.d/{{ item }}.j2
+    dest=/etc/monit/conf.d/{{ item }}
+    owner=root
+    group=root
+    mode=0644
+  notify:
+    - reload monit
+  when: monit_install
