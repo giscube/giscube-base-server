@@ -79,7 +79,7 @@
 
 - name: PHP environment install
   include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-  when: php_env_install
+  when: php_env_install|bool
 
 # Nginx
 - name: nginx install
