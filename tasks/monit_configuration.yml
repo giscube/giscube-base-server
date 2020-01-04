@@ -10,4 +10,4 @@
     mode=0644
   notify:
     - reload monit
-  when: monit_install
+  when: monit_install|bool

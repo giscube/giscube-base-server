@@ -1,51 +1,58 @@
 - name: python environment
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python-pip
     - python-virtualenv
     - python-dev
+    state: latest
   tags: packages
 
 - name: python3 environment
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3-pip
     - python3-dev
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release != 'zesty'
 
 - name: python3 environment
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3-pip
     - python3.6-dev
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'zesty'
 
 - name: "python3 virtualenv Ubuntu trusty"
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3.4-venv
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
 
 - name: "python3 virtualenv Ubuntu xenial"
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3.5-venv
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'
 
 - name: "python3 virtualenv Ubuntu zesty"
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3.6-venv
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'zesty'
 
 - name: "python3 virtualenv Ubuntu bionic"
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - python3-venv
+    state: latest
   tags: packages
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'bionic'

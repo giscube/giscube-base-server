@@ -1,10 +1,11 @@
 - name: php environment
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - php-common
     - php-cli
     - php-fpm
     - php-cgi
+    state: latest
   tags: packages
 
 - name: Set short_open_tag

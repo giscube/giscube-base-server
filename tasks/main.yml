@@ -40,42 +40,45 @@
   tags: packages
 
 - name: Ensure bash, OpenSSl, and libssl are the latest versions
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - bash
     - openssl
     - libssl-dev
     - libssl-doc
+    state: latest
   tags: packages
 
 - name: Ensure security updates are applied automatically
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - unattended-upgrades
+    state: latest
   tags: packages
 
 - name: basic utilities. htop, git, joe, vim, fail2ban, rpl
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - htop
     - git
     - joe
     - vim
     - rpl
     - acl
+    state: latest
   tags: packages
 
 - name: Install fail2ban
   apt: name=fail2ban state=latest
-  when: fail2ban_install
+  when: fail2ban_install|bool
   tags: packages
 
 - include: ntp.yml
-  when: ntp_enable
+  when: ntp_enable|bool
 
 - name: Python environment install
   include: "python.yml"
-  when: python_env_install
+  when: python_env_install|bool
 
 - name: PHP environment install
   include: "php_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
@@ -83,9 +86,10 @@
 
 # Nginx
 - name: nginx install
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - nginx
+    state: latest
   tags: packages, nginx
 
 - name: make sure nginx root exists
@@ -111,11 +115,12 @@
 
 # Supervisord.org
 - name: supervisord
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - supervisor
+    state: latest
   tags: packages
-  when: supervisor_install
+  when: supervisor_install|bool
 
 - name: supervisor configuration
   template:
@@ -138,44 +143,45 @@
         mode=0644
   notify:
   - reload nginx
-  when: supervisor_install and supervisor_web_enabled
+  when: supervisor_install|bool and supervisor_web_enabled|bool
 
 - name: ensure supervisor is running
   service: name=supervisor state=started
-  when: supervisor_install
+  when: supervisor_install|bool
 
 # Monit
 - name: monit
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - monit
-  when: monit_install
+    state: latest
+  when: monit_install|bool
   tags: packages
 
 - name: monit basic configuration
   include: monit_configuration.yml
   item: basic_conf
-  when: monit_install
+  when: monit_install|bool
 
 - name: monit basic configuration
   include: monit_configuration.yml
   item: system_resources
-  when: monit_install
+  when: monit_install|bool
 
 - name: monit nginx configuration
   include: monit_configuration.yml
   item: nginx
-  when: monit_install
+  when: monit_install|bool
 
 - name: monit php-fpm configuration
   include: monit_configuration.yml
   item: php-fpm
-  when: monit_install and php_env_install
+  when: monit_install|bool and php_env_install|bool
 
 - name: monit supervisor configuration
   include: monit_configuration.yml
   item: supervisor
-  when: monit_install and supervisor_install
+  when: monit_install|bool and supervisor_install|bool
 
 - name: monit nginx configuration
   template:
@@ -187,7 +193,7 @@
         mode=0644
   notify:
     - reload nginx
-  when: monit_install and monit_web_enabled
+  when: monit_install|bool and monit_web_enabled|bool
 
 - name: remove monit nginx configuration
   file:
@@ -195,15 +201,16 @@
     state=absent
   notify:
     - reload nginx
-  when: not (monit_install and monit_web_enabled)
+  when: not (monit_install|bool and monit_web_enabled|bool)
 
 # Munin
 - name: munin
-  apt: name={{ item }} state=latest
-  with_items:
+  apt:
+    name:
     - munin
+    state: latest
   tags: packages
-  when: munin_install
+  when: munin_install|bool
 
 - name: munin configuration
   template:
@@ -215,7 +222,7 @@
         mode=0644
   notify:
     - reload nginx
-  when: munin_install and munin_web_enabled
+  when: munin_install|bool and munin_web_enabled|bool
 
 - name: remove munin nginx configuration
   file:
@@ -223,7 +230,7 @@
     state=absent
   notify:
     - reload nginx
-  when: not (munin_install and munin_web_enabled)
+  when: not (munin_install|bool and munin_web_enabled|bool)
 
 - include: git-user.yml
   tags: git-user
