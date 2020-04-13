@@ -151,57 +151,8 @@
 
 # Monit
 - name: monit
-  apt:
-    name:
-    - monit
-    state: latest
-  when: monit_install|bool
-  tags: packages
-
-- name: monit basic configuration
-  include: monit_configuration.yml
-  item: basic_conf
-  when: monit_install|bool
-
-- name: monit basic configuration
-  include: monit_configuration.yml
-  item: system_resources
-  when: monit_install|bool
-
-- name: monit nginx configuration
-  include: monit_configuration.yml
-  item: nginx
-  when: monit_install|bool
-
-- name: monit php-fpm configuration
-  include: monit_configuration.yml
-  item: php-fpm
-  when: monit_install|bool and php_env_install|bool
-
-- name: monit supervisor configuration
-  include: monit_configuration.yml
-  item: supervisor
-  when: monit_install|bool and supervisor_install|bool
-
-- name: monit nginx configuration
-  template:
-        backup=yes
-        src=etc/nginx/sites-available/default.conf/monit.conf.j2
-        dest=/etc/nginx/sites-available/default.conf/monit.conf
-        owner=root
-        group=root
-        mode=0644
-  notify:
-    - reload nginx
-  when: monit_install|bool and monit_web_enabled|bool
-
-- name: remove monit nginx configuration
-  file:
-    path=/etc/nginx/sites-available/default.conf/monit.conf
-    state=absent
-  notify:
-    - reload nginx
-  when: not (monit_install|bool and monit_web_enabled|bool)
+  include: monit.yml
+  tags: monit
 
 # Munin
 - name: munin
