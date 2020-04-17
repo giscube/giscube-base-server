@@ -4,7 +4,7 @@ admin_username: admin
 admin_password: admin
 giscube_administrators_cidr: 127.0.0.1/32
 
-giscube_hostname: giscube-server
+giscube_hostname: false
 
 locale_lang: en_US.UTF-8
 locale_lc_all: en_US.UTF-8
