@@ -9,11 +9,17 @@ giscube_hostname: giscube-server
 locale_lang: en_US.UTF-8
 locale_lc_all: en_US.UTF-8
 
+apt_src_enable: false
 apt_update_cache: yes
 # cache valid for 1 day
 apt_cache_valid_time: 86400
 apt_sources_template: etc/apt/sources.list.j2
 apt_mirror: 'es'
+
+apt_ubuntu_mirror: mirror://mirrors.ubuntu.com/mirrors.txt
+apt_ubuntu_universe_enable: true
+apt_ubuntu_multiverse_enable: true
+apt_ubuntu_backports_enable: true
 
 nginx_root_try_files: yes
 nginx_client_max_body_size: 1M

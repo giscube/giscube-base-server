@@ -1,7 +1,35 @@
-deb http://{{ apt_mirror }}.archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}           main restricted universe multiverse
-deb http://{{ apt_mirror }}.archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-updates   main restricted universe multiverse
-deb http://{{ apt_mirror }}.archive.ubuntu.com/ubuntu/ {{ ansible_distribution_release }}-backports main restricted universe multiverse
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} main restricted
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} main restricted
+
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates main restricted
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates main restricted
+
+{% if apt_ubuntu_universe_enable %}
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} universe
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} universe
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates universe
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates universe
+{% endif %}
+
+{% if apt_ubuntu_multiverse_enable %}
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} multiverse
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} multiverse
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates multiverse
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates multiverse
+{% endif %}
+
+{% if apt_ubuntu_backports_enable %}
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-backports main restricted universe multiverse
+{{ '# ' if not apt_src_enable else '' }}deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-backports main restricted universe multiverse
+{% endif %}
 
 deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
+{{ '# ' if not apt_src_enable else '' }}deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
+{% if apt_ubuntu_universe_enable %}
 deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security universe
+{{ '# ' if not apt_src_enable else '' }}deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security universe
+{% endif %}
+{% if apt_ubuntu_multiverse_enable %}
 deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security multiverse
+{{ '# ' if not apt_src_enable else '' }}deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security multiverse
+{% endif %}
