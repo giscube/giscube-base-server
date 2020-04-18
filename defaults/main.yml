@@ -22,6 +22,7 @@ apt_ubuntu_universe_enable: true
 apt_ubuntu_multiverse_enable: true
 apt_ubuntu_backports_enable: true
 
+nginx_enable: true
 nginx_root_try_files: yes
 nginx_client_max_body_size: 1M
 nginx_default_root: /usr/share/nginx/html
