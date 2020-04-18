@@ -69,7 +69,7 @@
         dest=/etc/nginx/sites-available/default.conf/supervisor.conf
         owner=root
         group=root
-        mode=0644
+        mode=0640
   notify:
   - reload nginx
   when: supervisor_install|bool and supervisor_web_enabled|bool
@@ -99,7 +99,7 @@
         dest=/etc/nginx/sites-available/default.conf/munin.conf
         owner=root
         group=root
-        mode=0644
+        mode=0640
   notify:
     - reload nginx
   when: munin_install|bool and munin_web_enabled|bool
