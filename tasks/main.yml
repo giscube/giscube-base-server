@@ -37,33 +37,10 @@
   when: php_env_install|bool
 
 # Nginx
-- name: nginx install
-  apt:
-    name:
-    - nginx
-    state: latest
-  tags: packages, nginx
-
-- name: make sure nginx root exists
-  file: path={{ nginx_default_root }} state=directory
-      owner=root
-      group=root
-      mode=0755
-
-- name: nginx default configuration
-  template:
-        backup=yes
-        src=etc/nginx/sites-available/default.j2
-        dest=/etc/nginx/sites-available/default
-        owner=root
-        group=root
-        mode=0644
-  notify:
-    - reload nginx
+- name: nginx
+  include: nginx.yml
+  when: nginx_enable
   tags: nginx
-
-- name: nginx default.conf directory
-  file: path=/etc/nginx/sites-available/default.conf state=directory
 
 # Supervisord.org
 - name: supervisord
