@@ -9,6 +9,7 @@ giscube_hostname: false
 locale_lang: en_US.UTF-8
 locale_lc_all: en_US.UTF-8
 
+apt_enable: true
 apt_src_enable: false
 apt_update_cache: yes
 # cache valid for 1 day

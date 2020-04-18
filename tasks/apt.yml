@@ -1,0 +1,56 @@
+---
+- name: APT sources.list
+  template:
+        backup=yes
+        src={{ apt_sources_template }}
+        dest=/etc/apt/sources.list
+        owner=root
+        group=root
+        mode=0644
+  tags: packages
+
+- block:
+  - name: install apt requirements
+    apt:
+      pkg: aptitude
+      update_cache: "{{ apt_update_cache }}"
+    tags: packages
+  rescue:
+    - name: Previous task failed, force aptitude install
+      raw: apt-get update && apt-get -y install aptitude
+
+- name: Ensure system packages are up to date
+  apt:
+    upgrade=safe
+    update_cache={{ apt_update_cache }}
+    cache_valid_time={{ apt_cache_valid_time }}
+  tags: packages
+
+- name: Ensure security updates are applied automatically
+  apt:
+    name:
+    - unattended-upgrades
+    state: latest
+  tags: packages
+
+- name: Ensure bash, OpenSSl, and libssl are the latest versions
+  apt:
+    name:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+    state: latest
+  tags: packages
+
+- name: basic utilities. htop, git, joe, vim, fail2ban, rpl
+  apt:
+    name:
+    - htop
+    - git
+    - joe
+    - vim
+    - rpl
+    - acl
+    state: latest
+  tags: packages
