@@ -7,7 +7,7 @@
     dest=/etc/monit/conf.d/{{ item }}
     owner=root
     group=root
-    mode=0644
+    mode=0640
   notify:
     - reload monit
   when: monit_install|bool

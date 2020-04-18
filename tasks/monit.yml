@@ -40,7 +40,7 @@
         dest=/etc/nginx/sites-available/default.conf/monit.conf
         owner=root
         group=root
-        mode=0644
+        mode=0640
   notify:
     - reload nginx
   when: monit_install|bool and monit_web_enabled|bool
