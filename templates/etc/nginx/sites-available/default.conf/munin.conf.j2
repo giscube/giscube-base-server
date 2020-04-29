@@ -1,55 +1,60 @@
 
     # munin
-#    location ^~ /munin-cgi/munin-cgi-graph/ {
-#        fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
-#        fastcgi_param PATH_INFO $fastcgi_path_info;
-#        # fastcgi_pass unix:/var/run/munin/fastcgi-graph.sock;
-#        fastcgi_pass unix:/data/uwsgi/fcgis-sockets/munin-graph.sock;
-#        include fastcgi_params;
-#    }
     location ^~ /munin-cgi/munin-cgi-graph/ {
-            # Only available for local connections
+        # Only available for local connections
 
-            include uwsgi_params;
-            uwsgi_modifier1 9;
-            uwsgi_pass unix:/data/fcgis/munin-graph/uwsgi.sock;
-            uwsgi_param SCRIPT_NAME /munin-cgi/munin-cgi-graph;
+        fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/data/fcgis/munin-graph/uwsgi.sock;
+        include fastcgi_params;
 
-            # administrators
-    {% if giscube_administrators_cidr %}
-            # giscube_administrators_cidr
-            allow   {{ giscube_administrators_cidr }};
-    {% else %}
-            # giscube_administrators_cidr not set
-    {% endif %}
-            # drop rest of the world
-            deny    all;
+        # administrators
+{% if giscube_administrators_cidr %}
+        # giscube_administrators_cidr
+        allow   {{ giscube_administrators_cidr }};
+{% else %}
+        # giscube_administrators_cidr not set
+{% endif %}
+        # drop rest of the world
+        deny    all;
     }
 
-    location /munin/static/ {
+    location ^~ /munin/static/ {
         alias /etc/munin/static/;
     }
 
-#    location /munin/ {
-#        fastcgi_split_path_info ^(/munin)(.*);
-#        fastcgi_param PATH_INFO $fastcgi_path_info;
-#        # fastcgi_pass unix:/var/run/munin/fastcgi-html.sock;
-#        fastcgi_pass unix:/data/uwsgi/fcgis-sockets/munin-html.sock;
-#        include fastcgi_params;
-#    }
-    location /munin/ {
-            include uwsgi_params;
-            uwsgi_modifier1 9;
-            uwsgi_pass unix:/data/fcgis/munin-html/uwsgi.sock;
-            uwsgi_param SCRIPT_NAME /munin;
+    location ~ /munin/.+\.png {
+        # Only available for local connections
 
-            # administrators
-    {% if giscube_administrators_cidr %}
-            # giscube_administrators_cidr
-            allow   {{ giscube_administrators_cidr }};
-    {% else %}
-            # giscube_administrators_cidr not set
-    {% endif %}
-            # drop rest of the world
-            deny    all;
+        fastcgi_split_path_info ^(/munin)(.*);
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/data/fcgis/munin-graph/uwsgi.sock;
+        include fastcgi_params;
+
+        # administrators
+{% if giscube_administrators_cidr %}
+        # giscube_administrators_cidr
+        allow   {{ giscube_administrators_cidr }};
+{% else %}
+        # giscube_administrators_cidr not set
+{% endif %}
+        # drop rest of the world
+        deny    all;
+    }
+
+    location ~ /munin/ {
+        fastcgi_split_path_info ^(/munin)(.*);
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass unix:/data/fcgis/munin-html/uwsgi.sock;
+        include fastcgi_params;
+
+        # administrators
+{% if giscube_administrators_cidr %}
+        # giscube_administrators_cidr
+        allow   {{ giscube_administrators_cidr }};
+{% else %}
+        # giscube_administrators_cidr not set
+{% endif %}
+        # drop rest of the world
+        deny    all;
     }

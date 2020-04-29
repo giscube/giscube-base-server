@@ -89,7 +89,9 @@
     name:
     - munin
     state: latest
-  tags: packages
+  tags:
+    - packages
+    - munin
   when: munin_install|bool
 
 - name: munin configuration
@@ -102,6 +104,8 @@
         mode=0640
   notify:
     - reload nginx
+  tags:
+    - munin
   when: munin_install|bool and munin_web_enabled|bool
 
 - name: remove munin nginx configuration
@@ -110,6 +114,8 @@
     state=absent
   notify:
     - reload nginx
+  tags:
+    - munin
   when: not (munin_install|bool and munin_web_enabled|bool)
 
 - include: git-user.yml
