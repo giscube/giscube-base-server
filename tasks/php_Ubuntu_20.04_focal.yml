@@ -1,0 +1,17 @@
+- name: php environment
+  apt:
+    name:
+    - php-common
+    - php-cli
+    - php-fpm
+    - php-cgi
+    state: latest
+  tags: packages
+
+- name: Set short_open_tag
+  lineinfile:
+      dest=/etc/php/7.4/fpm/php.ini
+      state=present
+      regexp='^short_open_tag'
+      line='short_open_tag = On'
+      insertafter='^short_open_tag'
