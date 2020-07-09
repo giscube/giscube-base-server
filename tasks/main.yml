@@ -15,7 +15,7 @@
 # APT
 - name: apt
   include: apt.yml
-  when: apt_enable
+  when: apt_enable|bool
   tags:
     - packages
     - apt
@@ -39,7 +39,7 @@
 # Nginx
 - name: nginx
   include: nginx.yml
-  when: nginx_enable
+  when: nginx_enable|bool
   tags: nginx
 
 # Supervisord.org
