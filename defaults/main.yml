@@ -31,6 +31,7 @@ nginx_set_real_ip_from:
 nginx_default_server_name: localhost
 
 python_env_install: yes
+python2_env_install: no
 php_env_install: yes
 
 supervisor_install: yes
