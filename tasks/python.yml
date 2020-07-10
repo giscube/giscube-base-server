@@ -18,3 +18,12 @@
     state: latest
   when: python_env_install|bool
   tags: packages
+
+- name: python3 as default python
+  apt:
+    name:
+    - python-is-python3
+    state: latest
+  when: python_env_install|bool
+  ignore_errors: yes
+  tags: packages
