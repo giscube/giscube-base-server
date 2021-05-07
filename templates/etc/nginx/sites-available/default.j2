@@ -33,6 +33,9 @@ real_ip_recursive on;
   # nginx_client_max_body_size
   client_max_body_size {{ nginx_client_max_body_size }};
 {% endif %}
+{% if nginx_large_client_header_buffers %}
+  large_client_header_buffers {{ nginx_large_client_header_buffers }};
+{% endif %}
 
 {% if nginx_root_try_files %}
   # nginx_root_try_files: yes
